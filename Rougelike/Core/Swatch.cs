@@ -1,6 +1,6 @@
 ﻿using RLNET;
 
-namespace RogueSharpV3Tutorial.Core
+namespace Rougelike.Core
 {
     public class Swatch
     {
