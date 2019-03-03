@@ -38,6 +38,11 @@ namespace Rougelike
             // Tell RLNet to use the bitmap font that we specified and that each tile is 8 x 8 pixels
             _rootConsole = new RLRootConsole(fontFileName, _screenWidth, _screenHeight,
                 8, 8, 1f, consoleTitle);
+            // Initialize the sub consoles that we will Blit to the root console
+            _mapConsole = new RLConsole(_mapWidth, _mapHeight);
+            _messageConsole = new RLConsole(_messageWidth, _messageHeight);
+            _statConsole = new RLConsole(_statWidth, _statHeight);
+            _inventoryConsole = new RLConsole(_inventoryWidth, _inventoryHeight);
             // Set up a handler for RLNET's Update event
             _rootConsole.Update += OnRootConsoleUpdate;
             // Set up a handler for RLNET's Render event
