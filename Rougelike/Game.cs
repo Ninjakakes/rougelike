@@ -31,6 +31,8 @@ namespace Rougelike
         private static readonly int _inventoryHeight = 11;
         private static RLConsole _inventoryConsole;
 
+        public static Player Player { get; private set; }
+
         public static DungeonMap DungeonMap { get; private set; }
 
         static void Main()
@@ -50,6 +52,8 @@ namespace Rougelike
             _messageConsole = new RLConsole(_messageWidth, _messageHeight);
             _statConsole = new RLConsole(_statWidth, _statHeight);
             _inventoryConsole = new RLConsole(_inventoryWidth, _inventoryHeight);
+
+            Player = new Player();
 
             MapGenerator mapGenerator = new MapGenerator(_mapWidth, _mapHeight);
             DungeonMap = mapGenerator.CreateMap();
