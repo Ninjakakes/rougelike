@@ -101,6 +101,8 @@ namespace Rougelike
             RLConsole.Blit(_inventoryConsole, 0, 0, _inventoryWidth, _inventoryHeight,
               _rootConsole, 0, 0);
 
+            Player.Draw(_mapConsole, DungeonMap);
+
             // Tell RLNET to draw the console that we set
             _rootConsole.Draw();
         }
