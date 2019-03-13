@@ -57,6 +57,7 @@ namespace Rougelike
 
             MapGenerator mapGenerator = new MapGenerator(_mapWidth, _mapHeight);
             DungeonMap = mapGenerator.CreateMap();
+            DungeonMap.UpdatePlayerFieldOfView();
 
             // Set up a handler for RLNET's Update event
             _rootConsole.Update += OnRootConsoleUpdate;
@@ -91,6 +92,8 @@ namespace Rougelike
         {
             DungeonMap.Draw(_mapConsole);
 
+            Player.Draw(_mapConsole, DungeonMap);
+
             // Blit the sub consoles to the root console in the correct locations
             RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight,
               _rootConsole, 0, _inventoryHeight);
@@ -100,8 +103,6 @@ namespace Rougelike
               _rootConsole, 0, _screenHeight - _messageHeight);
             RLConsole.Blit(_inventoryConsole, 0, 0, _inventoryWidth, _inventoryHeight,
               _rootConsole, 0, 0);
-
-            Player.Draw(_mapConsole, DungeonMap);
 
             // Tell RLNET to draw the console that we set
             _rootConsole.Draw();
