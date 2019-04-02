@@ -35,7 +35,7 @@ namespace Rougelike
 
         private static bool _renderRequired = true;
 
-        public static Player Player { get; private set; }
+        public static Player Player { get; set; }
 
         public static DungeonMap DungeonMap { get; private set; }
 
@@ -65,8 +65,6 @@ namespace Rougelike
             _messageConsole = new RLConsole(_messageWidth, _messageHeight);
             _statConsole = new RLConsole(_statWidth, _statHeight);
             _inventoryConsole = new RLConsole(_inventoryWidth, _inventoryHeight);
-
-            Player = new Player();
 
             CommandSystem = new CommandSystem();
 

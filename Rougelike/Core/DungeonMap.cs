@@ -101,5 +101,13 @@ namespace Rougelike.Core
             Cell cell = (Cell)GetCell(x, y);
             SetCellProperties(cell.X, cell.Y, cell.IsTransparent, isWalkable, cell.IsExplored);
         }
+
+        // Called by MapGenerator after we generate a new map to add the player to the map
+        public void AddPlayer(Player player)
+        {
+            Game.Player = player;
+            SetIsWalkable(player.X, player.Y, false);
+            UpdatePlayerFieldOfView();
+        }
     }
 }
