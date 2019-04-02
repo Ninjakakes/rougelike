@@ -41,6 +41,8 @@ namespace Rougelike
 
         public static CommandSystem CommandSystem { get; private set; }
 
+        public static MessageLog MessageLog { get; private set; }
+
         // Singleton of IRandom used throughout the game when generating random numbers
         public static IRandom Random { get; private set; }
 
@@ -72,6 +74,10 @@ namespace Rougelike
             DungeonMap = mapGenerator.CreateMap();
             DungeonMap.UpdatePlayerFieldOfView();
 
+            MessageLog = new MessageLog();
+            MessageLog.Add("The rogue arrives on level 1");
+            MessageLog.Add($"Level created with seed '{seed}'");
+
             // Set up a handler for RLNET's Update event
             _rootConsole.Update += OnRootConsoleUpdate;
 
@@ -80,14 +86,6 @@ namespace Rougelike
 
             // Set background color and text for each console 
             // so that we can verify they are in the correct positions
-            _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, Colors.FloorBackground);
-            _mapConsole.Print(1, 1, "Map", Colors.TextHeading);
-
-            _messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, Swatch.DbDeepWater);
-            _messageConsole.Print(1, 1, "Messages", Colors.TextHeading);
-
-            _statConsole.SetBackColor(0, 0, _statWidth, _statHeight, Swatch.DbOldStone);
-            _statConsole.Print(1, 1, "Stats", Colors.TextHeading);
 
             _inventoryConsole.SetBackColor(0, 0, _inventoryWidth, _inventoryHeight, Swatch.DbWood);
             _inventoryConsole.Print(1, 1, "Inventory", Colors.TextHeading);
@@ -138,8 +136,9 @@ namespace Rougelike
             if (_renderRequired)
             {
                 DungeonMap.Draw(_mapConsole);
-
                 Player.Draw(_mapConsole, DungeonMap);
+                Player.DrawStats(_statConsole);
+                MessageLog.Draw(_messageConsole);
 
                 // Blit the sub consoles to the root console in the correct locations
                 RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight,
