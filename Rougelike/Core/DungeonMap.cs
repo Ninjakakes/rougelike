@@ -103,11 +103,12 @@ namespace Rougelike.Core
             // Only allow actor placement if the cell is walkable
             if(GetCell(x, y).IsWalkable)
             {
-                // THe cell the actor was previously on is now walkable
+                // The cell the actor was previously on is now walkable
                 SetIsWalkable(actor.X, actor.Y, true);
                 //Update the Actors positon
                 actor.X = x;
                 actor.Y = y;
+                SetIsWalkable(actor.X, actor.Y, false);
                 if (actor is Player)
                     UpdatePlayerFieldOfView();
                 return true;
@@ -128,6 +129,7 @@ namespace Rougelike.Core
             Game.Player = player;
             SetIsWalkable(player.X, player.Y, false);
             UpdatePlayerFieldOfView();
+            Game.SchedulingSystem.Add(player);
         }
 
         public void AddMonster (Monster monster)
@@ -135,6 +137,7 @@ namespace Rougelike.Core
             _monsters.Add(monster);
             // After adding the monster to the map make sure to make the cell not walkable
             SetIsWalkable(monster.X, monster.Y, false);
+            Game.SchedulingSystem.Add(monster);
         }
 
         // Look for a random location in the room that is walkable.
@@ -178,6 +181,7 @@ namespace Rougelike.Core
             _monsters.Remove(monster);
             // After removing the monster from the map, make sure the cell is walkable again
             SetIsWalkable(monster.X, monster.Y, true);
+            Game.SchedulingSystem.Remove(monster);
         }
 
         public Monster GetMonsterAt(int x, int y)

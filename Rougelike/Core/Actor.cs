@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Rougelike.Core
 {
-    public class Actor : IActor, IDrawable
+    public class Actor : IActor, IDrawable, IScheduleable
     {
         // IActor
         private int _attack;
@@ -148,6 +148,16 @@ namespace Rougelike.Core
         public char Symbol { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+
+        // ISchedulable
+        public int Time
+        {
+            get
+            {
+                return Speed;
+            }
+        }
+
         public void Draw(RLConsole console, IMap map)
         {
             // Don't draw actors in cells that haven't been explored
