@@ -15,6 +15,7 @@ namespace Rougelike.Core
         public static RLColor WallFov = Swatch.SecondaryLighter;
 
         public static RLColor Player = Swatch.DbLight;
+        public static RLColor KoboldColor = Swatch.DbBrightWood;
 
         public static RLColor TextHeading = RLColor.White;
         public static RLColor Text = Swatch.DbLight;
