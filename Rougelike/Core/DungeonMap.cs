@@ -10,12 +10,15 @@ namespace Rougelike.Core
     {
         public List<Rectangle> Rooms;
 
+        public List<Door> Doors { get; set; }
+
         private readonly List<Monster> _monsters;
 
         public DungeonMap()
         {
             // Initialize all the lists when we create a new DungeonMap
             Rooms = new List<Rectangle>();
+            Doors = new List<Door>();
             _monsters = new List<Monster>();
         }
 
@@ -42,6 +45,11 @@ namespace Rougelike.Core
                     monster.DrawStats(statConsole, i);
                     i++;
                 }
+            }
+
+            foreach (Door door in Doors)
+            {
+                door.Draw(mapConsole, this);
             }
         }
 
@@ -111,6 +119,7 @@ namespace Rougelike.Core
                 SetIsWalkable(actor.X, actor.Y, false);
                 if (actor is Player)
                     UpdatePlayerFieldOfView();
+                OpenDoor(actor, x, y);
                 return true;
             }
             return false;
@@ -187,6 +196,27 @@ namespace Rougelike.Core
         public Monster GetMonsterAt(int x, int y)
         {
             return _monsters.FirstOrDefault(m => m.X == x && m.Y == y);
+        }
+
+        // Return the door at the x,y position or null if one is not found.
+        public Door GetDoor(int x, int y)
+        {
+            return Doors.SingleOrDefault(d => d.X == x && d.Y == y);
+        }
+
+        // The actor opens the door located at the x,y position
+        private void OpenDoor(Actor actor, int x, int y)
+        {
+            Door door = GetDoor(x, y);
+            if (door != null && !door.IsOpen)
+            {
+                door.IsOpen = true;
+                var cell = GetCell(x, y);
+                // Once the door is opened it should be marked as transparent and no longer block field-of-view
+                SetCellProperties(x, y, true, cell.IsWalkable, cell.IsExplored);
+
+                Game.MessageLog.Add($"{actor.Name} opened a door");
+            }
         }
     }
 }
